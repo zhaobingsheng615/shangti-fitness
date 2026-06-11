@@ -31,7 +31,7 @@ body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff;disp
   <div class="hint">微信扫一扫</div>
   <div class="hint-sub">了解更多 · 开启你的健身之旅</div>
   <div class="qrcode-box">
-    <img src="二维码.png" alt="尚体健身二维码" id="qrPrintImg" style="width:300px;height:300px">
+    <img src="qrcode.png" alt="尚体健身二维码" id="qrPrintImg" style="width:300px;height:300px">
     <canvas id="qrCanvas" width="360" height="360" style="display:none"></canvas>
   </div>
   <div class="sub-hint">发展历程 · 教练团队 · 优秀学员 · 门店环境</div>
@@ -41,31 +41,16 @@ body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff;disp
 <script>
 var url = window.location.href.replace('print-qrcode.html','index.html').replace('print-qrcode','index');
 document.getElementById('urlDisplay').textContent = url;
-var qrImg = document.getElementById('qrPrintImg');
-if (qrImg) {
-  qrImg.onerror = function() {
-    this.style.display = 'none';
-    var canvas = document.getElementById('qrCanvas');
-    if (canvas) {
-      canvas.style.display = 'block';
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(canvas, {text: url, width: 360, height: 360, colorDark: '#1a1a2e', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H});
-      }
-    }
-  };
+var img=document.getElementById('qrPrintImg');
+var canvas=document.getElementById('qrCanvas');
+function showCanvasQR(){
+  canvas.style.display='block';
+  if(typeof QRCode!=='undefined'){new QRCode(canvas,{text:url,width:360,height:360,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}
+  if(img)img.style.display='none';
 }
-setTimeout(function() {
-  if (qrImg && (!qrImg.complete || qrImg.naturalWidth === 0)) {
-    qrImg.style.display = 'none';
-    var canvas = document.getElementById('qrCanvas');
-    if (canvas) {
-      canvas.style.display = 'block';
-      if (typeof QRCode !== 'undefined') {
-        new QRCode(canvas, {text: url, width: 360, height: 360, colorDark: '#1a1a2e', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H});
-      }
-    }
-  }
-}, 2000);
+if(img)img.onerror=showCanvasQR;
+if(typeof QRCode!=='undefined'){showCanvasQR()}
+setTimeout(function(){if(img&&(!img.complete||img.naturalWidth===0))showCanvasQR()},2000);
 </script>
 </body>
 </html>

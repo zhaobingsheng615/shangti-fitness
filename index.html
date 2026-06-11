@@ -196,7 +196,7 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">扫码了解更多</h2>
     <p class="section-subtitle">微信扫描二维码，进入尚体健身品牌页面</p>
     <div class="qrcode-box">
-      <img src="二维码.png" alt="尚体健身二维码" id="qrStaticImg" style="width:200px;height:200px;object-fit:contain">
+      <img src="qrcode.png" alt="尚体健身二维码" id="qrStaticImg" style="width:200px;height:200px;object-fit:contain">
       <canvas id="qrCanvas" width="240" height="240" style="display:none"></canvas>
     </div>
     <p class="qrcode-hint">扫一扫上方二维码，查看发展历程、教练团队、优秀学员</p>
@@ -222,15 +222,16 @@ const observer=new IntersectionObserver(e=>{e.forEach(entry=>{if(entry.isInterse
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 var pageUrl=window.location.href.replace('print-qrcode.html','index.html').replace('print-qrcode','index');
-var urlDisplay=document.getElementById('qrPageUrl');if(urlDisplay)urlDisplay.textContent=pageUrl;
-var upd = document.getElementById('urlDisplay');if(upd)upd.textContent=pageUrl;
-if(typeof QRCode!=='undefined'){
-  var canvas=document.getElementById('qrCanvas');
-  if(canvas){canvas.style.display='block';
-    new QRCode(canvas,{text:pageUrl,width:240,height:240,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
-  }
-  var img=document.getElementById('qrStaticImg');
+document.getElementById('qrPageUrl').textContent=pageUrl;
+var upd=document.getElementById('urlDisplay');if(upd)upd.textContent=pageUrl;
+var img=document.getElementById('qrStaticImg');
+var canvas=document.getElementById('qrCanvas');
+function showCanvas(){
+  canvas.style.display='block';
+  if(typeof QRCode!=='undefined'){new QRCode(canvas,{text:pageUrl,width:240,height:240,colorDark:'#1a1a2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}
   if(img)img.style.display='none';
-}</script>
+}
+if(typeof QRCode!=='undefined'){showCanvas()}
+if(img){img.onerror=showCanvas}</script>
 </body>
 </html>
