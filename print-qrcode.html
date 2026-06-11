@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>扫码了解尚体健身</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.print-wrap{text-align:center;padding:40px}
+.brand{font-size:32px;font-weight:900;color:#1a1a2e;letter-spacing:4px;margin-bottom:4px}
+.brand-en{font-size:14px;color:#999;letter-spacing:3px;margin-bottom:24px}
+.qrcode-box{display:inline-block;background:#fff;border:4px solid #1a1a2e;border-radius:16px;padding:16px;margin-bottom:20px}
+.qrcode-box img,.qrcode-box canvas{display:block;width:300px;height:300px;margin:0 auto}
+.hint{font-size:18px;color:#c62828;font-weight:700;letter-spacing:3px;margin-bottom:8px}
+.hint-sub{font-size:14px;color:#666;letter-spacing:2px;margin-bottom:16px}
+.sub-hint{font-size:14px;color:#888;letter-spacing:2px;margin-bottom:20px}
+.url-display{font-size:12px;color:#bbb;word-break:break-all;margin-top:12px;max-width:400px;font-family:Consolas,monospace}
+@media print{
+  body{display:block}
+  .print-wrap{padding:20mm 0}
+  .url-display{color:#bbb!important}
+  @page{margin:10mm;size:A4 portrait}
+}
+</style>
+</head>
+<body>
+<div class="print-wrap">
+  <div class="brand">尚体健身俱乐部</div>
+  <div class="brand-en">SHANGTI FITNESS CLUB</div>
+  <div class="hint">微信扫一扫</div>
+  <div class="hint-sub">了解更多 · 开启你的健身之旅</div>
+  <div class="qrcode-box">
+    <img src="二维码.png" alt="尚体健身二维码" id="qrPrintImg" style="width:300px;height:300px">
+    <canvas id="qrCanvas" width="360" height="360" style="display:none"></canvas>
+  </div>
+  <div class="sub-hint">发展历程 · 教练团队 · 优秀学员 · 门店环境</div>
+  <div class="url-display" id="urlDisplay"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+var url = window.location.href.replace('print-qrcode.html','index.html').replace('print-qrcode','index');
+document.getElementById('urlDisplay').textContent = url;
+var qrImg = document.getElementById('qrPrintImg');
+if (qrImg) {
+  qrImg.onerror = function() {
+    this.style.display = 'none';
+    var canvas = document.getElementById('qrCanvas');
+    if (canvas) {
+      canvas.style.display = 'block';
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(canvas, {text: url, width: 360, height: 360, colorDark: '#1a1a2e', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H});
+      }
+    }
+  };
+}
+setTimeout(function() {
+  if (qrImg && (!qrImg.complete || qrImg.naturalWidth === 0)) {
+    qrImg.style.display = 'none';
+    var canvas = document.getElementById('qrCanvas');
+    if (canvas) {
+      canvas.style.display = 'block';
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(canvas, {text: url, width: 360, height: 360, colorDark: '#1a1a2e', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H});
+      }
+    }
+  }
+}, 2000);
+</script>
+</body>
+</html>
